@@ -7,7 +7,7 @@ Profile based Logitech mouse recoil management for PUBG
 - Weapon profile management
 - Automatic magazine-based recoil control
 - Cycle through weapons with a button press
-- Support for full-auto DMR with recoil control
+- Support for burst DMR with recoil control
 
 > **Note:** For information on tuning profiles, see [`profiles.md`](docs/profiles.md)
 

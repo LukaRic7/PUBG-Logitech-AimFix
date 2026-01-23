@@ -216,7 +216,7 @@ function RecoilController:next_profile()
   self.current_profile = self.profiles[name]
   
   -- Log the change
-  DebugLog("Switched -> %s", name)
+  DebugLog("Switched -> %s%s", name, self.current_profile.type == "DMR" and " (DMR)" or "")
 end
 
 --[[ 

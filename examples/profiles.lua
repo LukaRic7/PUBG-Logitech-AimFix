@@ -1,3 +1,7 @@
+-- Weapon cycle
+local weapon_cycle = { "MK12", "VSS", "AUG" }
+
+-- User profiles
 local user_profiles = {
   -- ###################### --
   {

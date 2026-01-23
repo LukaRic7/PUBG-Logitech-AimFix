@@ -8,8 +8,8 @@ local user_profiles = {
     type          = "DMR",
     name          = "MK12",
     burst_count   = 3,
-    recoil_y      = 9,
-    fire_delay    = 120
+    recoil_y      = 37,
+    fire_delay    = 170
   },
   -- ###################### --
   {

@@ -23,7 +23,7 @@ local auto_stop_recoil = true
 local verbose_console = false -- Currently does nothing.
 
 -- Ordered weapon cycle, default weapon is the first in the row.
-local weapon_cycle = { "MK12", "VSS", "AUG" }
+local weapon_cycle = {  }
 
 -- Profile list, add more if needed, even if they aren't used.
 local user_profiles = {

@@ -305,8 +305,10 @@ OnEvent: Handles Logitech mouse events
   :arg -> Mouse button number or key code
 --]]
 function OnEvent(event, arg)
-  DebugLog("Event: %s %i", event, arg)
-
+  if verbose_console then
+    DebugLog("Event: %s %i", event, arg)
+  end
+  
   -- Stop recoil if the profile is deactivated
   if event == "PROFILE_DEACTIVATED" then
     if verbose_console then

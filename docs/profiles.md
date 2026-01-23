@@ -22,6 +22,7 @@ Each profile contains parameters and information needed for optimal recoil contr
 | `recoil_min` | number | Starting vertical mouse movement |
 | `recoil_max` | number | Maximum vertical movement at the end of the magazine |
 | `recoil_growth` | number | Growth rate for the recoil curve |
+| `burst_count` | number | **Only for DMRs.** Amount of shots when using recoil control on a DMR |
 | `recoil_y` | number | **Only for DMRs.** Vertical movement per shot |
 | `fire_delay` | number (ms) | **Only for DMRs.** Delay between shots |
 
@@ -45,9 +46,11 @@ Each profile contains parameters and information needed for optimal recoil contr
 7. `recoil_growth` Small increments works best (approximately 0.05 - 0.2).
     1. If recoil climbs quickly at the start, lower growth (slower ramp-up).
     2. If recoil climbs too slow at first, then jerks at the end, increase growth (faster ramp early).
-8. `recoil_y` Only used for DMR. The recoil to compensate for after each shot.
+8. `burst_count` Set this to whatever you want, but 1 or above.
+    1. Be aware if it's too high, it will continue until done, you CANNOT stop it.
+9. `recoil_y` Only used for DMR. The recoil to compensate for after each shot.
     1. If bullets go down, decrease.
     2. If bullets go up, increase.
-9. `fire_delay` Only used for DMR. The delay before being able to shoot the next shot.
+10. `fire_delay` Only used for DMR. The delay before being able to shoot the next shot.
     1. If too low, messes up the entire flow.
     2. If too high, safe, but could have more firerate potential.

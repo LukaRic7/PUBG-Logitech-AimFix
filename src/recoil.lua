@@ -20,7 +20,7 @@ local cycle_next_key = 7
 local auto_stop_recoil = true
 
 -- Use this to get verbose console output.
-local verbose_console = false -- Currently does nothing.
+local verbose_console = false
 
 -- Ordered weapon cycle, default weapon is the first in the row.
 local weapon_cycle = {  }
@@ -80,6 +80,10 @@ end
 VerifyAndInitialize: Verifies user config and initializes profiles and weapon cycle
 --]]
 function VerifyAndInitialize()
+    if verbose_console then
+      DebugLog("Verifying and initializing")
+    end
+
   -- Loop through user defined profiles and append them to the controller
   for i, obj in ipairs(user_profiles) do
     Controller:add_profile(obj)
@@ -97,6 +101,10 @@ end
 Class: Provides a simple way to create classes with :new() and :init()
 --]]
 function Class()
+  if verbose_console then
+    DebugLog("Creating class")
+  end
+    
   local cls = {}
   cls.__index = cls
   
@@ -241,14 +249,7 @@ function RecoilController:run()
   
   -- >>> DMR MODE <<< --
   if profile.type == "DMR" then
-    while IsMouseButtonPressed(1) do
-      shot_count = shot_count + 1
-      
-      -- Auto-stop if magazine is empty
-      if auto_stop_recoil and shot_count > profile.mag_size then
-        break
-      end
-      
+    for i=1, profile.burst_count do      
       -- Fire one shot
       PressMouseButton(1)
       Sleep(10)
@@ -258,7 +259,7 @@ function RecoilController:run()
       MoveMouseRelative(0, profile.recoil_y)
       
       -- Enforce fire-rate
-      Sleep(math.max(1, profile.fire_delay - 10))
+      Sleep(profile.fire_delay)
     end
     
     -- Make sure not to enter AR mode
@@ -269,7 +270,7 @@ function RecoilController:run()
   local start = GetRunningTime()
 
   -- Loop while left mouse button is held down
-  while IsMouseButtonPressed(1) do
+  while  IsMouseButtonPressed(1) do
     -- Time since shooting started
     local elapsed = GetRunningTime() - start
     
@@ -304,25 +305,45 @@ OnEvent: Handles Logitech mouse events
   :arg -> Mouse button number or key code
 --]]
 function OnEvent(event, arg)
+  DebugLog("Event: %s %i", event, arg)
+
   -- Stop recoil if the profile is deactivated
   if event == "PROFILE_DEACTIVATED" then
+    if verbose_console then
+      DebugLog("Profile deactivated")
+    end
     ReleaseMouseButton(1)
     return
   end
   
   -- Toggle recoil control ON/OFF
   if event == "MOUSE_BUTTON_PRESSED" and arg == toggle_key then
+    if verbose_console then
+      DebugLog("Toggle key pressed")
+    end
     Controller:toggle()
   end
 
   -- Cycle to next weapon profile
   if event == "MOUSE_BUTTON_PRESSED" and arg == cycle_next_key then
+    if verbose_console then
+      DebugLog("Cycle key pressed")
+    end
     Controller:next_profile()
   end
 
   -- Run recoil loop while left mouse button is pressed
   if event == "MOUSE_BUTTON_PRESSED" and arg == 1 then
+    if verbose_console then
+      DebugLog("Primary button pressed")
+    end
     Controller:run()
+  end
+
+  if event == "MOUSE_BUTTON_RELEASED" and arg == 1 then
+    if verbose_console then
+      DebugLog("Primary button released")
+    end
   end
 end
 

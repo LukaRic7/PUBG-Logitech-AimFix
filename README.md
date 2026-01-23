@@ -9,6 +9,8 @@ Profile based Logitech mouse recoil management for PUBG
 - Cycle through weapons with a button press
 - Support for full-auto DMR with recoil control
 
+> **Note:** For information on tuning profiles, see [`profiles.md`](docs/profiles.md)
+
 ## Installation
 
 Copy all the source code in [`recoil.lua`](src/recoil.lua) and paste it into your Logitech script editor.

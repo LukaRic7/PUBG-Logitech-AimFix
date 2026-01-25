@@ -287,6 +287,10 @@ function RecoilController:run()
     -- Calculate vertical mouse movement for current shot
     local y = math.floor(profile:recoil(math.ceil(shot_count)))
     
+    if verbose_console then
+      DebugLog("Shooting with %spx compensation (%s Shots fired)", y, math.ceil(shot_count))
+    end
+    
     -- Apply movement, and sleep to control loop rate
     MoveMouseRelative(0, y)
     Sleep(20)

@@ -95,6 +95,8 @@ function VerifyAndInitialize()
       DebugLog("WARNING: Profile '%s' in weapon cycle does not exist!", name)
     end
   end
+
+  Controller:next_profile()
 end
 
 --[[

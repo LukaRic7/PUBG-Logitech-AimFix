@@ -1,28 +1,49 @@
+Custom Non-Commercial Attribution License (CNAL) v1.0
+
 Copyright (c) 2026 LukaRic
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to use,
-copy, modify, and distribute the Software for NON-COMMERCIAL purposes only,
+copy, modify, merge, publish, and distribute the Software and derivative works,
 subject to the following conditions:
 
-1. Commercial use, sale, sublicensing, or monetization of the Software, in
-   whole or in part, is strictly prohibited.
+1. Attribution Required
+All copies of the Software, in whole or in part, and any derivative works must
+include:
+(a) the original author name,
+(b) a reference or link to the original source or repository if available, and
+(c) a copy of this license.
+Attribution must be reasonably visible in source distributions and any
+accompanying documentation or credits.
 
-2. The above copyright notice and this permission notice shall be included in
-   all copies or substantial portions of the Software.
+2. Non-Commercial Use Only
+The Software may not be used, in whole or in part, for any commercial purpose.
 
+Commercial purposes include, without limitation:
+- selling or licensing the Software or derivative works
+- charging fees for access to the Software
+- including the Software in paid products or services
+- using the Software to provide paid services
+- internal business, enterprise, or organizational use intended for commercial
+  advantage or monetary compensation
+
+Commercial use requires prior written permission from the copyright holder.
+
+3. Derivative Works
+You may create and distribute modified or derivative versions of the Software
+only if:
+(a) they are licensed under this same license,
+(b) they remain non-commercial, and
+(c) they retain the required attribution and license notice.
+
+4. No Warranty
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, LOSSES,
-ACCOUNT SUSPENSIONS, BANS, DATA LOSS, SERVICE TERMINATION, OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
-FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR MISUSE OF
-THE SOFTWARE.
-
-ADDITIONAL DISCLAIMER:
-Use of this Software may violate the terms of service, acceptable use
-policies, or rules of third-party services, platforms, or games. Users assume
-all risks associated with such use and are solely responsible for ensuring
-compliance with all applicable laws, rules, and policies.
+5. Termination
+Any failure to comply with these terms automatically terminates the rights
+granted under this license.

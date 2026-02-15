@@ -235,7 +235,11 @@ RecoilController:toggle(): Toggle recoil control ON/OFF
 function RecoilController:toggle()
   -- Toggle and log
   self.enabled = not self.enabled
-  DebugLog("RC: %s", self.enabled and "Enabled" or "Disabled")
+  DebugLog("RC: %s (%s %s)",
+    self.enabled and "Enabled" or "Disabled",
+    self.current_profile["name"],
+    self.current_profile.type == "DMR" and " [DMR]" or ""
+  )
 end
 
 --[[ 

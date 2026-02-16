@@ -10,6 +10,7 @@ Profile based Logitech mouse recoil management for PUBG
 - Support for burst DMR with recoil control
 
 > **Note:** For information on tuning profiles, see [`profiles.md`](docs/profiles.md)
+> **Note:** For examples, take a look at [`examples.md`](examples/profiles.md)
 
 ## Installation
 

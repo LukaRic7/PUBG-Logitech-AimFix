@@ -1,5 +1,30 @@
 -- Weapon cycle
-local weapon_cycle = { "MK12", "VSS", "AUG" }
+local weapon_cycle = {
+-- {{  5.56 NATO   }} --
+  --"M416 RD"
+  --"AUG RD",
+  --"G36C RD",
+
+-- {{ NON-FULLAUTO }} --
+  --"Muktant RD",
+  "M16A4 Burst 4x", "M16A4 Single 4x" -- Create groups that is easy togglable
+
+-- {{  7.62 NATO   }} --
+  "Beryl RD", -- Togglable in cycle using double-dash
+  --"AKM RD",
+  --"ACE RD",
+  
+-- {{   9mm NATO   }} --
+  "VSS",
+  --"MP5K RD",
+  "Vector RD",
+  --"Bizon 2x", "Bizon 6x",
+  
+-- {{   SPECIALS   }} --
+  "P90", "P90 Zoom",
+  --"MG3 RD", "MG3 4x",
+  --"GROZA RD",
+}
 
 -- User profiles
 local user_profiles = {

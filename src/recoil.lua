@@ -22,6 +22,9 @@ local auto_stop_recoil = true
 -- Use this to get verbose console output.
 local verbose_console = false
 
+-- Use this when using the custom overlay from the same git repo.
+local overlay_mode = true
+
 -- Ordered weapon cycle, default weapon is the first in the row.
 local weapon_cycle = {  }
 
@@ -226,7 +229,11 @@ function RecoilController:next_profile()
   self.current_profile = self.profiles[name]
   
   -- Log the change
-  DebugLog("Switched -> %s%s", name, self.current_profile.type == "DMR" and " (DMR)" or "")
+  if overlay_mode then
+    OutputLogMessage("oms|%s|%s\n", name, is_dmr and "1" or "0")
+  else
+    DebugLog("Switched -> %s%s", name, is_dmr and " [DMR]" or "")
+  end
 end
 
 --[[ 
@@ -235,11 +242,16 @@ RecoilController:toggle(): Toggle recoil control ON/OFF
 function RecoilController:toggle()
   -- Toggle and log
   self.enabled = not self.enabled
-  DebugLog("RC: %s (%s%s)",
-    self.enabled and "Enabled" or "Disabled",
-    self.current_profile["name"],
-    self.current_profile.type == "DMR" and " [DMR]" or ""
-  )
+
+  if overlay_mode then
+    OutputLogMessage("omt|%s\n", self.enabled and "1" or "0")
+  else
+    DebugLog("RC: %s (%s%s)",
+      self.enabled and "Enabled" or "Disabled",
+      self.current_profile["name"],
+      self.current_profile.type == "DMR" and " [DMR]" or ""
+    )
+  end
 end
 
 --[[ 

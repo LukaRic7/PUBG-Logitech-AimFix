@@ -53,8 +53,6 @@ while true {
 				state.Opt('c' . c)
 				state.Value := is_on_label
 
-				ToolTip(c)
-
 				border1.Opt('Background' c)
 				border2.Opt('Background' c)
 				border3.Opt('Background' c)

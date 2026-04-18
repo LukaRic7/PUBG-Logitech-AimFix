@@ -25,6 +25,11 @@ local verbose_console = false
 -- Use this when using the custom overlay from the same git repo.
 local overlay_mode = true
 
+-- Anti-cheat detection randomness - PUBG is cracking down on mouse scripts.
+local horizontal_noise = true
+local vertical_noise = true
+local timing_noise = true
+
 -- Ordered weapon cycle, default weapon is the first in the row.
 local weapon_cycle = {  }
 
@@ -284,11 +289,20 @@ function RecoilController:run()
     return
   end
   
+  -- Make sure the G HUB API is updated
+  sleep(15)
+  
   -- >>> AR MODE <<< --
   local start = GetRunningTime()
 
+  -- Drift variables for smooth, curved inaccuracies 
+  local current_h_drift = 0
+  local current_v_drift = 0
+  local target_h_drift = 0
+  local target_v_drift = 0
+
   -- Loop while left mouse button is held down
-  while  IsMouseButtonPressed(1) do
+  while IsMouseButtonPressed(1) do
     -- Time since shooting started
     local elapsed = GetRunningTime() - start
     
@@ -300,16 +314,38 @@ function RecoilController:run()
       break
     end
     
-    -- Calculate vertical mouse movement for current shot
-    local y = math.floor(profile:recoil(math.ceil(shot_count)))
-    
+    -- Calculate base vertical mouse movement for current shot
+    local y = profile:recoil(math.ceil(shot_count))
+  
+    -- This scales the pull-down from 0% to 100% over the first 60ms.
+    local reaction_multiplier = math.min(1.0, elapsed / 60.0)
+    y = y * reaction_multiplier
+
+    -- This mimics a human realizing they are off-target and pulling slightly left/right.
+    if math.random(1, 100) > 85 then
+        -- Inaccuracy scales up slightly as the magazine empties
+        local fatigue = 1.0 + (shot_count / profile.mag_size) * 0.4
+        
+        target_h_drift = (math.random() - 0.5) * 3.5 * fatigue
+        target_v_drift = (math.random() - 0.5) * 2.5 * fatigue
+    end
+
+    -- Create a smooth curve rather than a fucked zigzag line
+    current_h_drift = current_h_drift + (target_h_drift - current_h_drift) * 0.15
+    current_v_drift = current_v_drift + (target_v_drift - current_v_drift) * 0.15
+
     if verbose_console then
-      DebugLog("Shooting with %spx compensation (%s Shots fired)", y, math.ceil(shot_count))
+      DebugLog("Shooting with %spx compensation (%s Shots fired)", math.floor(y), math.ceil(shot_count))
     end
     
-    -- Apply movement, and sleep to control loop rate
-    MoveMouseRelative(0, y)
-    Sleep(20)
+    -- Apply movement
+    MoveMouseRelative(
+      horizontal_noise and math.floor(current_h_drift) or 0,
+      vertical_noise and math.floor(y + current_v_drift) or math.floor(y)
+    )
+    
+    -- Use variable sleep
+    Sleep(timing_noise and math.random(5, 20) or 20)
   end
 end
 

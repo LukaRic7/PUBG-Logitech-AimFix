@@ -5,7 +5,7 @@ Profile based Logitech mouse recoil management for PUBG
 # Important
 
 As of April 2026, KRAFTON mentioned in one of their dev letters that they will crack down hard on the recoil script users.
-For this reason i have added 3 noise layers to toggle at will. This does not mask the script 100% and never will, but might make it more confusing for PUBG's anti-cheat.
+For this reason i have added 4 noise layers to toggle at will. This does not mask the script 100% and never will, but might make it more confusing for PUBG's anti-cheat.
 
 **Use at own risk! So far i have NOT been banned using this.**
 

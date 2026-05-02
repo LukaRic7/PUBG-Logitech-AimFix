@@ -16,6 +16,9 @@ local toggle_key = 8
 -- Mouse key that cycles to the next weapon recoil control.
 local cycle_next_key = 7
 
+-- Mouse key that cycles to the next hotbar.
+local cycle_hotbar_key = 5
+
 -- Stop recoil control when the magazine is empty.
 local auto_stop_recoil = true
 
@@ -32,7 +35,9 @@ local reaction_layer = true
 local timing_noise = true
 
 -- Ordered weapon cycle, default weapon is the first in the row.
-local weapon_cycle = {  }
+local hotbar_list = {
+
+}
 
 -- Profile list, add more if needed, even if they aren't used.
 local user_profiles = {
@@ -55,6 +60,9 @@ local user_profiles = {
 
 -- Store the last log timestamp for calculating delta times
 local last_log_time = GetRunningTime()
+
+-- Keep track of the current weapon cycle
+local weapon_cycle = hotbar_list[1].weapons
 
 --[[
 DebugLog: Prints formatted information to the console with timestamps
@@ -94,18 +102,20 @@ function VerifyAndInitialize()
     end
 
   -- Loop through user defined profiles and append them to the controller
-  for i, obj in ipairs(user_profiles) do
+  for _, obj in ipairs(user_profiles) do
     Controller:add_profile(obj)
   end
   
   -- Check if all weapons in the cycle exists in the controller
-  for i, name in ipairs(weapon_cycle) do
-    if not Controller.profiles[name] then
-      DebugLog("WARNING: Profile '%s' in weapon cycle does not exist!", name)
+  for _, hotbar in ipairs(hotbar_list) do
+    for _, name in ipairs(hotbar.weapons) do
+      if not Controller.profiles[name] then
+        DebugLog("WARNING: Profile '%s' in weapon cycle does not exist!", name)
+      end
     end
   end
 
-  Controller:next_profile()
+  Controller:next_hotbar(1)
 end
 
 --[[
@@ -185,12 +195,13 @@ RecoilController:init(): Initialize the controller
 function RecoilController:init()
   self.enabled = false
   self.current_index = 1
+  self.current_hotbar_index = 1
   self.profiles = {}
   self.cycle_order = weapon_cycle
   self.current_profile = nil
 end
 
---[[ 
+--[[
 RecoilController:add_profile(): Add a new weapon profile to the controller
 #Params
  :tbl -> Table containing weapon stats (name, mag_size, dump_time, recoil_min/max/growth)
@@ -220,16 +231,22 @@ function RecoilController:add_profile(tbl)
   end
 end
 
---[[ 
+--[[
 RecoilController:next_profile(): Cycle to the next weapon profile in cycle_order (wraps around)
+#Params
+ :index -> The index of the slot in weapon cycle
 --]]
-function RecoilController:next_profile()
+function RecoilController:next_profile(index)
   -- Return early if no weapons are in the cycle
   if #self.cycle_order == 0 then return end
   
   -- Increment index and wrap around if necessary
-  self.current_index = self.current_index % #self.cycle_order + 1
-  
+  if index then
+    self.current_index = index
+  else
+    self.current_index = self.current_index % #self.cycle_order + 1
+  end
+
   -- Get weapon name and update current profile
   local name = self.cycle_order[self.current_index]
   self.current_profile = self.profiles[name]
@@ -240,6 +257,35 @@ function RecoilController:next_profile()
   else
     DebugLog("Switched -> %s%s", name, is_dmr and " [DMR]" or "")
   end
+end
+
+--[[
+  RecoilController:next_hotbar(): Sets the active hotbar and auto-selects its first weapon
+  #Params
+   :index -> The index of the hotbar in hotbar_list
+]]
+function RecoilController:next_hotbar(index)
+  -- Make sure theres hotbars available
+  if #hotbar_list == 0 then return end
+
+  -- Increment the hotbar index, and wrap if necessary
+  if index then
+    self.current_hotbar_index = index
+  else
+    self.current_hotbar_index = self.current_hotbar_index % #hotbar_list + 1
+  end
+
+  self.cycle_order = hotbar_list[self.current_hotbar_index].weapons
+
+  local hotbar_name = hotbar_list[self.current_hotbar_index].name
+
+  if overlay_mode then
+    OutputLogMessage("omh|%s\n", hotbar_name)
+  else
+    DebugLog("Switched Hotbar -> %s", hotbar_name)
+  end
+
+  self:next_profile(1)
 end
 
 --[[ 
@@ -386,6 +432,14 @@ function OnEvent(event, arg)
       DebugLog("Toggle key pressed")
     end
     Controller:toggle()
+  end
+
+  -- Cycle to next hobar
+  if event == "MOUSE_BUTTON_PRESSED" and arg == cycle_hotbar_key then
+    if verbose_console then
+      DebugLog("Hotbar cycle key pressed")
+    end
+    Controller:next_hotbar()
   end
 
   -- Cycle to next weapon profile

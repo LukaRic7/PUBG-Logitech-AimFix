@@ -28,7 +28,10 @@ Overlay.SetFont('cDDDD00 s' font_size ' Bold', 'Segoe UI Semibold')
 state := Overlay.AddText('x10 y5 Center 0x200 w' (scale * 60) ' h' (scale * 30), "???")
 
 Overlay.SetFont('cE6E6E6 s' (font_size - 1), 'Segoe UI')
-weapon := Overlay.AddText('x+10 yp 0x200 w' width ' h' (scale * 30), 'WEAPON')
+weapon := Overlay.AddText('x+10 yp 0x200 w' width ' h' (scale * 20), 'WEAPON')
+
+Overlay.SetFont('cE6E6E6 s' ((font_size - 1) / 2), 'Segoe UI')
+hotbar := Overlay.AddText('xp y+2 0x200 w' width ' h' (scale * 10 - 2), 'HOTBAR')
 
 border1 := Overlay.AddText('x0 y0 w' ((scale * 60) + width + 30) ' h1 BackgroundFFFF00')
 border2 := Overlay.AddText('x0 y' (scale * 30) + 9 ' w' ((scale * 60) + width + 30) ' h1 BackgroundFFFF00')
@@ -67,9 +70,14 @@ while true {
 		if list.Get(1) == 'oms' {
 			dmr_suffix := list.Get(3) == '1' ? ' [DMR]' : ''
 			weapon_name := list.Get(2) . dmr_suffix
+			hotbar_name := list.Get(4)
 
 			if (weapon.Value != weapon_name) {
 				weapon.Value := weapon_name
+			}
+
+			if (hotbar.Value != hotbar_name) {
+				hotbar.Value := hotbar_name
 			}
 		}
 

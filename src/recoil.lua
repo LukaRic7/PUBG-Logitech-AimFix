@@ -251,11 +251,13 @@ function RecoilController:next_profile(index)
   local name = self.cycle_order[self.current_index]
   self.current_profile = self.profiles[name]
   
+  local hotbar_name = hotbar_list[self.current_hotbar_index].name
+
   -- Log the change
   if overlay_mode then
-    OutputLogMessage("oms|%s|%s\n", name, is_dmr and "1" or "0")
+    OutputLogMessage("oms|%s|%s|%s\n", name, is_dmr and "1" or "0", hotbar_name)
   else
-    DebugLog("Switched -> %s%s", name, is_dmr and " [DMR]" or "")
+    DebugLog("Switched -> [%s] %s%s", hotbar_name, name, is_dmr and " [DMR]" or "")
   end
 end
 
@@ -276,14 +278,6 @@ function RecoilController:next_hotbar(index)
   end
 
   self.cycle_order = hotbar_list[self.current_hotbar_index].weapons
-
-  local hotbar_name = hotbar_list[self.current_hotbar_index].name
-
-  if overlay_mode then
-    OutputLogMessage("omh|%s\n", hotbar_name)
-  else
-    DebugLog("Switched Hotbar -> %s", hotbar_name)
-  end
 
   self:next_profile(1)
 end

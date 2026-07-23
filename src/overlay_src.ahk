@@ -3,7 +3,7 @@
 SetWorkingDir(A_ScriptDir)
 Persistent()
 
-VERSION := '1.4'
+VERSION := '1.5'
 
 ; === Read INI Settings ===
 screenIdx  := IniRead('overlay_settings.ini', 'Position', 'screenIdx')
@@ -50,7 +50,16 @@ border3 := Overlay.AddText('x0 y0 w1 h' (scale * 30) + 10 ' BackgroundFFFF00')
 border4 := Overlay.AddText('x' ((scale * 60) + widthPx + 29) ' y0 w1 h' (scale * 30) + 10 ' BackgroundFFFF00')
 borders := [border1, border2, border3, border4]
 
-Overlay.Show('x' xPosPx ' y' yPosPx ' w' ((scale * 60) + widthPx + 30) ' h' (scale * 30) + 10)
+Try {
+	MonitorGet(Integer(screenIdx), &monitorLeft, &monitorTop)
+} Catch {
+	MonitorGet(1, &monitorLeft, &monitorTop)
+}
+
+absX := monitorLeft + Integer(xPosPx)
+absY := monitorTop + Integer(yPosPx)
+
+Overlay.Show('x' absX ' y' absY ' w' ((scale * 60) + widthPx + 30) ' h' (scale * 30) + 10)
 
 /**
  * Set the state label and border colors.

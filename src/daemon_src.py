@@ -78,7 +78,7 @@ def grab_ghub_websocket_url() -> str:
     """
 
     try:
-        response = requests.get('http://localhost:9222/json')
+        response = requests.get('http://localhost:9222/json', timeout=2)
         if not response.ok:
             lr.Log.error('GHUB endpoint did not return ok. [{}]: {}'.format(
                 response.status_code, response.reason
@@ -91,6 +91,9 @@ def grab_ghub_websocket_url() -> str:
                 return frame.get('webSocketDebuggerUrl')
     except requests.exceptions.ConnectionError:
         lr.Log.warn('Injected GHUB is not running!')
+        return
+    except requests.exceptions.ReadTimeout:
+        lr.Log.warn('GHUB is running, but not in foreground!')
         return
 
 def start_websocket_listen(url:str, new_msg_callback):
@@ -127,11 +130,15 @@ def start_websocket_listen(url:str, new_msg_callback):
         """.replace('\t', '').replace('\n', '')
 
         while not SUICIDE:
-            ws.send(json.dumps({
-                'id': 3,
-                'method': 'Runtime.evaluate',
-                'params': { 'expression': html }
-            }))
+            try:
+                ws.send(json.dumps({
+                    'id': 3,
+                    'method': 'Runtime.evaluate',
+                    'params': { 'expression': html }
+                }))
+            except websocket._exceptions.WebSocketConnectionClosedException:
+                lr.Log.warn('GHUB window was closed. Exiting!')
+                break
             
             time.sleep(FETCH_DELAY)
 
@@ -189,3 +196,4 @@ if __name__ == '__main__':
         lr.Log.info('Keyboard interrupt detected, closing!')
         SUICIDE = True
         exit()
+    except Exception: pass

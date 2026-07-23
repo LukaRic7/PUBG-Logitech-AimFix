@@ -1,6 +1,8 @@
 import websocket, json, requests, subprocess, threading, time, sys, os
 import loggerric as lr
 
+VERSION = '1.1'
+
 SUICIDE = False
 FETCH_DELAY = 0.1
 FLUSH_TIMEOUT = 1
@@ -190,6 +192,8 @@ def main():
     start_websocket_listen(url, on_new_msg)
 
 if __name__ == '__main__':
+    lr.Log.info(f'=== PUBG RC Overlay - GHUB Injector v{VERSION} ===')
+
     try:
         main()
     except KeyboardInterrupt:
